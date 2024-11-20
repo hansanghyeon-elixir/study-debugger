@@ -1,18 +1,21 @@
 defmodule Buggy do
-  @moduledoc """
-  Documentation for `Buggy`.
-  """
+  def parse_header(
+    <<
+      format::integer-16,
+      tracks::integer-16,
+    division::integer-16,
+    >>
+  ) do
+    IO.puts "format: #{format}"
+    IO.puts "tracks: #{tracks}"
+    IO.puts "division: #{decode(division)}"
+  end
 
-  @doc """
-  Hello world.
+  def decode(<< 1::1, beats::15 >>) do
+    "♩ = #{beats}"
+  end
 
-  ## Examples
-
-      iex> Buggy.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def decode(<< 0::1, fps::7, beats::8 >>) do
+    "#{-fps} fps, #{beats}/frame"
   end
 end
